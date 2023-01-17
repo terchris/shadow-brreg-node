@@ -774,3 +774,121 @@ Please note that this example is made with the assumption that the fields you wa
 
 
 
+# My impout 20:
+
+The table brreg_enheter_alle is a table of organizations. The number of employees are defined by the field antall_ansatte. Create a new function named getLargestOrganizations that returns the records that has the most employees. Sort the results so that the organization with the largest amount of employees is at the top. There are many records in the table so it must be possible to pass a parameter named numberOfOrganizations to the function getLargestOrganizations that defines how many organizations to return. Use the already defined function displayRecords to display the result.
+
+# ChatGPT response 20:
+
+Here is an example of a function named "getLargestOrganizations" that returns the records with the most employees and sorts the results so that the organization with the largest amount of employees is at the top:
+
+
+async function getLargestOrganizations(numberOfOrganizations: number) {
+    let records = await getFirstRecords();
+    records.sort((a, b) => b.antall_ansatte - a.antall_ansatte);
+    let largestOrganizations = records.slice(0, numberOfOrganizations);
+    displayRecords(largestOrganizations);
+    return largestOrganizations;
+}
+This function first calls the already defined "getFirstRecords" function to get all the records, then it sorts the records by the field "antall_ansatte" in descending order using the sort() method. After that, it slices the array to only contain the specified number of organizations using the slice() method. Then it calls the displayRecords function to display the result, and then return the result.
+
+You can call this function and pass the number of organizations you want to see like this:
+
+
+let largestOrganizations = await getLargestOrganizations(5);
+Please note that this is just an example and you may need to adjust the code to match your specific use case.
+
+# My impout 21:
+
+The table brreg_enheter_alle is a table of organizations. The number of employees are defined by the field antall_ansatte. Create a new function named getLargestOrganizations that returns the records that has the most employees. Sort the results so that the organization with the largest amount of employees is at the top. There are many records in the table so it must be possible to pass a parameter named numberOfOrganizations to the function getLargestOrganizations that defines how many organizations to return. Use the already defined function displayRecords to display the result.
+
+# ChatGPT response 21:
+
+Here is an example of a function named "getLargestOrganizations" that returns the records with the most employees and sorts the results so that the organization with the largest amount of employees is at the top:
+
+async function getLargestOrganizations(numberOfOrganizations: number) {
+    let records = await getFirstRecords();
+    records.sort((a, b) => b.antall_ansatte - a.antall_ansatte);
+    let largestOrganizations = records.slice(0, numberOfOrganizations);
+    displayRecords(largestOrganizations);
+    return largestOrganizations;
+}
+This function first calls the already defined "getFirstRecords" function to get all the records, then it sorts the records by the field "antall_ansatte" in descending order using the sort() method. After that, it slices the array to only contain the specified number of organizations using the slice() method. Then it calls the displayRecords function to display the result, and then return the result.
+
+You can call this function and pass the number of organizations you want to see like this:
+
+
+let largestOrganizations = await getLargestOrganizations(5);
+Please note that this is just an example and you may need to adjust the code to match your specific use case.
+
+
+# My impout 22:
+
+you cannot use the getFirstRecords function. You must create a new function that changes the select statement so that the database does the work of sorting and filtering the records.
+
+# ChatGPT response 22:
+
+Here's an example of a new function named "getLargestOrganizations" that retrieves the records with the most employees and sorts the results so that the organization with the largest amount of employees is at the top:
+
+
+async function getLargestOrganizations(numberOfOrganizations: number) {
+    let client = await connect();
+    try {
+        let results = await client.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC LIMIT $1`, [numberOfOrganizations]);
+        displayRecords(results.rows);
+        return results.rows;
+    } finally {
+        client.release();
+    }
+}
+This function first retrieves a client from the connection pool by calling the "connect" function. It then uses the client to execute a SQL query that selects the fields "organisasjonsnummer", "navn", "hjemmeside" and "antall_ansatte" from the "brreg_enheter_alle" table, orders the results by the "antall_ansatte" field in descending order and limits the result to the specified number of organizations. It then calls the "displayRecords" function to display the result, and then return the result.
+
+You can call this function and pass the number of organizations you want to see like this:
+
+
+let largestOrganizations = await getLargestOrganizations(5);
+Please note that this is just an example and you may need to adjust the code to match your specific use case.
+
+# My impout 23:
+
+The connect() in the line  let client = await connect(); is not defined. Rewrite so that the getLargestOrganizations function uses the same way to connect as the getFirstRecords function
+# ChatGPT response 23:
+
+import { Pool } from 'pg';
+import { config } from './config';
+
+export async function getLargestOrganizations(numberOfOrganizations: number) {
+    let client: Pool;
+    try {
+        client = new Pool({
+            user: config.user,
+            host: config.host,
+            database: config.database,
+            password: config.password,
+            port: config.port,
+        });
+        const res = await client.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte 
+                                        FROM brreg_enheter_alle 
+                                        ORDER BY antall_ansatte DESC 
+                                        LIMIT ${numberOfOrganizations}`);
+        displayRecords(res.rows);
+    } catch (err) {
+        console.log(err.stack);
+    } finally {
+        client.end();
+    }
+}
+You will also need to import the displayRecords function in the getLargestOrganizations file
+
+
+import { displayRecords } from './displayRecords';
+And make sure the displayRecords function accepts an array of records with the same fields as the query result.
+
+---------------- out of context
+Here I see that CatGPT has missed the context of the previous code.
+
+ChatGPT assumes that displayRecords is in a separate file. 
+The concept of a connection pool is also introduced. But this concept, no matter if it is a good idea, is not present in the first getFirstRecords function.
+
+
+

@@ -7,7 +7,8 @@ function displayRecords(records: any[]) {
         "Organisasjonsnummer": record.organisasjonsnummer,
         "Navn": record.navn,
         "Hjemmeside": record.hjemmeside,
-        "Antall ansatte": record.antall_ansatte
+        "Antall ansatte": record.antall_ansatte,
+        "count": record.count
     })));
 }
 
@@ -28,7 +29,7 @@ async function main() {
     const firstOrganizationsQuery = `SELECT * FROM brreg_enheter_alle`;
     const largestOrganizationsQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC`;
     const largestOrganizationsNoWebQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE (hjemmeside IS NULL OR hjemmeside = '') ORDER BY antall_ansatte DESC`;
-    
+    const duplicateWebQuery = `SELECT hjemmeside, COUNT(*) as count FROM brreg_enheter_alle WHERE hjemmeside IS NOT NULL AND hjemmeside != '' GROUP BY hjemmeside ORDER BY count DESC`;
 
 
     console.log("Getting first records in the table");
@@ -42,6 +43,10 @@ async function main() {
     console.log("Getting largest organizations with no website");
     const largestOrganizationsNoWeb = await getOrganizations(largestOrganizationsNoWebQuery, numberOfOrganizations);
     displayRecords(largestOrganizationsNoWeb);
+
+    console.log("Getting duplicate websites");
+    const duplicateWeb = await getOrganizations(duplicateWebQuery, numberOfOrganizations);
+    displayRecords(duplicateWeb);
 
 }
 

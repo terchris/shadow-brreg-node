@@ -1,6 +1,6 @@
 # code written by CharGPT
 
-# My impout 1:
+# My input 1:
 I have a postgres database named importdata on port 5433. username and password is "postgres". write me a typescript program that lists the first 10 records in the table brreg_enheter_alle. define a separate file named config where you put the code for connecting to the database.
 Make the code that query the database a function named getFirstRecords. the getFirstRecords must be called with await and return a array of the returned records. Name the file index.ts
 
@@ -41,7 +41,7 @@ main();
 You can call the main function and it will return the first 10 rows of the table brreg_enheter_alle.
 
 
-# My impout 2:
+# My input 2:
 change config.ts so that variables are set in the .env file and create the .env file
 
 # ChatGPT response 1:
@@ -81,7 +81,7 @@ npm install dotenv
 or
 yarn add dotenv
 
-# My impout 2:
+# My input 2:
 create types in a file named typedefinitions.ts based on the postgres table definition here: --
 -- PostgreSQL database dump
 --
@@ -233,7 +233,7 @@ async function getFirstRecords(): Promise<BrregEnheterAlle[]> {
 
 
 
-# My impout 3:
+# My input 3:
 Extend my package.json file (see below) so that I have scripts for build and develop for typescript. this is my package.json file: {
   "name": "shadow-brreg-node",
   "version": "0.0.1",
@@ -278,7 +278,7 @@ The "develop" script runs the TypeScript compiler (tsc) in "watch" mode, which w
 After adding the scripts you can run npm run build to build the project, and npm run develop to start development.
 
 
-# My impout 4:
+# My input 4:
 I'm using yarn and not npm. can you change your response accordingly
 
 # ChatGPT response 4:
@@ -308,7 +308,7 @@ The "develop" script runs the TypeScript compiler (tsc) in "watch" mode, which w
 
 After adding the scripts you can run yarn build to build the project, and yarn develop to start development.
 
-# My impout 5:
+# My input 5:
 
 I get an error message when doing yarn build. What do I do to fix it? This is the message: src/config.ts:1:22 - error TS7016: Could not find a declaration file for module 'pg'. '/Users/tec/Library/CloudStorage/Dropbox/Projects/learn/urbalurba2023/shadow-brreg-node/node_modules/pg/lib/index.js' implicitly has an 'any' type.
   Try `npm i --save-dev @types/pg` if it exists or add a new declaration (.d.ts) file containing `declare module 'pg';`
@@ -331,7 +331,7 @@ Alternatively, you can also add the following line at the top of your config.ts 
 import * as pg from 'pg';
 This would allow you to use the pg library in your code without any errors and you don't need to install types for it.
 
-# My impout 6:
+# My input 6:
 
 I used the yarn add -D @types/pg and the problem was fixed. But there is one more error: src/config.ts:8:20 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
@@ -353,7 +353,7 @@ Another way is to set the default value of the 'DATABASE_PORT' in .env file to 5
 DATABASE_PORT=5433
 With this setup, the parseInt function will always have a valid string as an input and the error will be resolved.
 
-# My impout 7:
+# My input 7:
 
 I checked. The .env file has the variable DATABASE_PORT=5433 . What can be wrong?
 
@@ -376,7 +376,7 @@ Also check if the typescript is configured to include the .env file when transpi
 
 Please let me know if you have any further questions.
 
-# My impout 8:
+# My input 8:
 
 In config.ts I changed import dotenv from 'dotenv'; to import * as dotenv from 'dotenv'; But that did not resolve the problem. What part of the tsconfig.json must be changed in order for .env variables to be read?
 
@@ -412,7 +412,7 @@ Here's an example of how you can configure your tsconfig.json file to include th
 The include property is an array of globs that match files to include. In this example, it includes all .ts files in the src directory, and the .env file.
 
 
-# My impout 9:
+# My input 9:
 
 added your suggestions. But the error is still: src/config.ts:9:20 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
@@ -432,7 +432,7 @@ Make sure that the .env file is being included in the final build output by chec
 Please let me know if you have any further questions.
 
 
-# My impout 10:
+# My input 10:
 
 I do not understand how to check my build/bundling tool's configuration.
 
@@ -452,7 +452,7 @@ If you don't have a build/bundling tool, you can check the command you are using
 Please let me know if you have any further questions.
 
 
-# My impout 11:
+# My input 11:
 
 I'm using tsc to build. I se that there are 3 files in my dist directory. But the .env file is not there. My tsconfig.json looks like this: {
   "compilerOptions": {
@@ -600,7 +600,7 @@ By doing this you are telling the compiler to include all .ts files in the src d
 Please let me know if you have any further questions.
 
 
-# My impout 12:
+# My input 12:
 
 The error is still there. But I changed the port: line in config.ts to port: process.env.DATABASE_PORT ? parseInt(process.env.DATABASE_PORT) : 5433,
 and now I can do yarn build with no errors
@@ -615,7 +615,7 @@ That is a good way of handling undefined environment variables and it ensures th
 
 Please let me know if you have any further questions.
 
-# My impout 13:
+# My input 13:
 
 how do I run the program ?
 
@@ -630,7 +630,7 @@ Another way to run your application is by using a package like npm-run-all, it a
 
 Please let me know if you have any further questions.
 
-# My impout 14:
+# My input 14:
 
 Thanks. I was able to run the program. How do I set up vscode so that I can debug and step trough the code?
 
@@ -662,7 +662,7 @@ This configuration tells the extension to launch your application by running the
 Once you have created the launch configuration, you can start debugging by clicking on the debug icon on
 
 
-# My impout 15:
+# My input 15:
 
 The "Debugger for Chrome" extension is Deprecated. I'm instructed to use the JavaScript Debugger instead. And this extension is already installed.
 
@@ -693,7 +693,7 @@ Once you have created the launch configuration, you can start debugging by click
 
 Please let me know if you have any further questions.
 
-# My impout 16:
+# My input 16:
 
 I have added a console.log line and put a breakpopint on it. But the debugger does not stop at the line. This is the code from my index.ts: console.log("Starting")
 main(); 
@@ -711,7 +711,7 @@ Additionally, you should make sure that the breakpoints are enabled, and that th
 
 If the issue persist, please let me know, I will be happy to help you further.
 
-# My impout 17:
+# My input 17:
 
 If i set the brakepoint in the dist/index.js file it works. But not when I set the breakpoint in src/index.ts It seems to me that there are some mapping missing. 
 
@@ -735,7 +735,7 @@ Check that the "sourceMaps" option is set to "true" in your launch configuration
 
 If you have checked all of these and the issue persist, please let me know, I will be happy to help you further.
 
-# My impout 18:
+# My input 18:
 
 The "sourceMap" option in tsconfig.json was not set to "true". I added it and now it works
 
@@ -745,7 +745,7 @@ Great, I'm glad to hear that it's working now. The "sourceMap" option is essenti
 
 If you have any other questions or issues, feel free to ask.
 
-# My impout 19:
+# My input 19:
 
 Create a function named displayRecords that displays the following fields  organisasjonsnummer, navn, hjemmeside and antall_ansatte. Display the records in a table with the fields in the header.
 
@@ -774,7 +774,7 @@ Please note that this example is made with the assumption that the fields you wa
 
 
 
-# My impout 20:
+# My input 20:
 
 The table brreg_enheter_alle is a table of organizations. The number of employees are defined by the field antall_ansatte. Create a new function named getLargestOrganizations that returns the records that has the most employees. Sort the results so that the organization with the largest amount of employees is at the top. There are many records in the table so it must be possible to pass a parameter named numberOfOrganizations to the function getLargestOrganizations that defines how many organizations to return. Use the already defined function displayRecords to display the result.
 
@@ -798,7 +798,7 @@ You can call this function and pass the number of organizations you want to see 
 let largestOrganizations = await getLargestOrganizations(5);
 Please note that this is just an example and you may need to adjust the code to match your specific use case.
 
-# My impout 21:
+# My input 21:
 
 The table brreg_enheter_alle is a table of organizations. The number of employees are defined by the field antall_ansatte. Create a new function named getLargestOrganizations that returns the records that has the most employees. Sort the results so that the organization with the largest amount of employees is at the top. There are many records in the table so it must be possible to pass a parameter named numberOfOrganizations to the function getLargestOrganizations that defines how many organizations to return. Use the already defined function displayRecords to display the result.
 
@@ -822,7 +822,7 @@ let largestOrganizations = await getLargestOrganizations(5);
 Please note that this is just an example and you may need to adjust the code to match your specific use case.
 
 
-# My impout 22:
+# My input 22:
 
 you cannot use the getFirstRecords function. You must create a new function that changes the select statement so that the database does the work of sorting and filtering the records.
 
@@ -849,7 +849,7 @@ You can call this function and pass the number of organizations you want to see 
 let largestOrganizations = await getLargestOrganizations(5);
 Please note that this is just an example and you may need to adjust the code to match your specific use case.
 
-# My impout 23:
+# My input 23:
 
 The connect() in the line  let client = await connect(); is not defined. Rewrite so that the getLargestOrganizations function uses the same way to connect as the getFirstRecords function
 # ChatGPT response 23:
@@ -891,14 +891,14 @@ ChatGPT assumes that displayRecords is in a separate file.
 The concept of a connection pool is also introduced. But this concept, no matter if it is a good idea, is not present in the first getFirstRecords function.
 
 
-# My impout 24:
+# My input 24:
 
 write the sql statement that find the organizations that has the most employees and does not have a hjemmeside field or the hjemmeside field is empty
 # ChatGPT response 24:
 
 SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC LIMIT numberOfOrganizations;
 
-# My impout 25:
+# My input 25:
 
 write the sql statement that find the organizations that has the most employees and does not have a hjemmeside field or the hjemmeside field is empty
 
@@ -906,7 +906,7 @@ write the sql statement that find the organizations that has the most employees 
 
 const res = await pool.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC LIMIT $1`, [numberOfOrganizations]);
 
-# My impout 26:
+# My input 26:
 
 The functions that query the organizations table is similar. Only difference is the select statement. Can you rewrite the following function so that there is one function that can take the select statement and the limit as parameters. Rewrite this function: async function getLargestOrganizations(numberOfOrganizations: number) : Promise<any[]> {
     
@@ -939,7 +939,7 @@ You can then call this function with the appropriate select statement and limit 
 const largestOrganizations = await queryOrganizations(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC`, 10);
 const organizationsWithoutWebsite = await queryOrganizations(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC`, 5);
 
-# My impout 27:
+# My input 27:
 
 Good suggestion. Please rewrite so that all sql statements are string constants. Eg the string that has the select statement that finds the largest organizations can be named largestOrganizationsQuery
 
@@ -965,6 +965,25 @@ You can then call the function like this:
 const largestOrganizations = await getOrganizations(largestOrganizationsQuery, numberOfOrganizations);
 This way you can reuse the function for different select statements and limits by just passing in different parameters.
 
+----------- Did comit - now we will "talk" about sql queries we can do
+Remember here that ChatGPT is told that the table we are querying contains organizations. So when I talk about organizastions, then ChatGPT know what it is. I also think it knows that the field antall_ansatte means number of employees.
+
+
+# My input 28:
+
+There are many organizations with the same hjemmeside.  Write the sql that returns a table containing the fields hjemmeside and count. Where count is the total of organizations with the same hjemmeside. Sort the resulting table so that the hjemmeside that has the highest count is at the top.
+
+# ChatGPT response 28:
+
+SELECT hjemmeside, COUNT(hjemmeside) as count FROM brreg_enheter_alle GROUP BY hjemmeside ORDER BY count DESC;
+
+# My input 29:
+
+add limit to the sql 
+
+# ChatGPT response 28:
+
+SELECT hjemmeside, COUNT(*) as count FROM brreg_enheter_alle WHERE hjemmeside IS NOT NULL AND hjemmeside != '' GROUP BY hjemmeside ORDER BY count DESC LIMIT $1
 
 
 

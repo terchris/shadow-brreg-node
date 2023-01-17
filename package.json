@@ -2,22 +2,28 @@
   "name": "shadow-brreg-node",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "https://github.com/terchris/shadow-brreg-node.git",
+  "repository": "git+https://github.com/terchris/shadow-brreg-node.git",
   "author": "Terje Christensen <terchris@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/pg": "^8.6.6",
-    "@types/react": "^18.0.26",
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "daisyui": "^2.47.0",
     "dotenv": "^16.0.3",
-    "pg": "^8.8.0",
-    "react": "^18.2.0"
+    "pg": "^8.8.0"
   },
   "scripts": {
     "build": "tsc",
     "develop": "tsc -w"
-  }
+  },
+  "description": "typescript/node code for accessing the postgres shadow copy of brreg.no (brønnøysundregistrene)",
+  "bugs": {
+    "url": "https://github.com/terchris/shadow-brreg-node/issues"
+  },
+  "homepage": "https://github.com/terchris/shadow-brreg-node#readme",
+  "keywords": [
+    "ChatGPT",
+    "brreg"
+  ]
 }

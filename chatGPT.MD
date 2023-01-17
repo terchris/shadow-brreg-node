@@ -891,4 +891,80 @@ ChatGPT assumes that displayRecords is in a separate file.
 The concept of a connection pool is also introduced. But this concept, no matter if it is a good idea, is not present in the first getFirstRecords function.
 
 
+# My impout 24:
+
+write the sql statement that find the organizations that has the most employees and does not have a hjemmeside field or the hjemmeside field is empty
+# ChatGPT response 24:
+
+SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC LIMIT numberOfOrganizations;
+
+# My impout 25:
+
+write the sql statement that find the organizations that has the most employees and does not have a hjemmeside field or the hjemmeside field is empty
+
+# ChatGPT response 25:
+
+const res = await pool.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC LIMIT $1`, [numberOfOrganizations]);
+
+# My impout 26:
+
+The functions that query the organizations table is similar. Only difference is the select statement. Can you rewrite the following function so that there is one function that can take the select statement and the limit as parameters. Rewrite this function: async function getLargestOrganizations(numberOfOrganizations: number) : Promise<any[]> {
+    
+    try {
+        const res = await pool.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC LIMIT $1`, [numberOfOrganizations]);
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+# ChatGPT response 26:
+
+Here is an example of how the function could be refactored to take the select statement and limit as parameters:
+
+
+async function queryOrganizations(selectStatement: string, limit: number): Promise<any[]> {
+    try {
+        const res = await pool.query(`${selectStatement} LIMIT $1`, [limit]);
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+You can then call this function with the appropriate select statement and limit for each specific query you need to make, for example:
+
+
+const largestOrganizations = await queryOrganizations(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC`, 10);
+const organizationsWithoutWebsite = await queryOrganizations(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE hjemmeside IS NULL OR hjemmeside = '' ORDER BY antall_ansatte DESC`, 5);
+
+# My impout 27:
+
+Good suggestion. Please rewrite so that all sql statements are string constants. Eg the string that has the select statement that finds the largest organizations can be named largestOrganizationsQuery
+
+# ChatGPT response 27:
+
+Sure, here's an example of how you can refactor the getLargestOrganizations function to take in a select statement and limit as parameters:
+
+
+const largestOrganizationsQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE (hjemmeside IS NULL OR hjemmeside = '') ORDER BY antall_ansatte DESC`;
+
+async function getOrganizations(query: string, limit: number) : Promise<any[]> {
+    try {
+        const res = await pool.query(`${query} LIMIT $1`, [limit]);
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+You can then call the function like this:
+
+
+const largestOrganizations = await getOrganizations(largestOrganizationsQuery, numberOfOrganizations);
+This way you can reuse the function for different select statements and limits by just passing in different parameters.
+
+
+
 

@@ -1,14 +1,5 @@
 import pool from './config';
 
-async function getFirstRecords(): Promise<any[]> {
-    try {
-        const res = await pool.query('SELECT * FROM brreg_enheter_alle LIMIT 10');
-        return res.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-}
 
 function displayRecords(records: any[]) {
     console.log("\nDisplaying records:");
@@ -20,24 +11,39 @@ function displayRecords(records: any[]) {
     })));
 }
 
-async function getLargestOrganizations(numberOfOrganizations: number) {
-    let client = await connect();
+async function getOrganizations(query: string, limit: number) : Promise<any[]> {
     try {
-        let results = await client.query(`SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC LIMIT $1`, [numberOfOrganizations]);
-        displayRecords(results.rows);
-        return results.rows;
-    } finally {
-        client.release();
+        const res = await pool.query(`${query} LIMIT $1`, [limit]);
+        return res.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
     }
 }
 
 
-
 async function main() {
-    let records = await getFirstRecords();
-    displayRecords(records);
-    let largestOrganizations = await getLargestOrganizations(5);
+
+    const numberOfOrganizations = 10;
+    const firstOrganizationsQuery = `SELECT * FROM brreg_enheter_alle`;
+    const largestOrganizationsQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle ORDER BY antall_ansatte DESC`;
+    const largestOrganizationsNoWebQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE (hjemmeside IS NULL OR hjemmeside = '') ORDER BY antall_ansatte DESC`;
+    
+
+
+    console.log("Getting first records in the table");
+    let firstRecords = await getOrganizations(firstOrganizationsQuery, numberOfOrganizations);
+    displayRecords(firstRecords);
+
+    console.log("Getting largest organizations");
+    const largestOrganizations = await getOrganizations(largestOrganizationsQuery, numberOfOrganizations);
+    displayRecords(largestOrganizations);
+
+    console.log("Getting largest organizations with no website");
+    const largestOrganizationsNoWeb = await getOrganizations(largestOrganizationsNoWebQuery, numberOfOrganizations);
+    displayRecords(largestOrganizationsNoWeb);
 
 }
+
 console.log("Starting")
 main();

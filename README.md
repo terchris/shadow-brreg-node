@@ -5,4 +5,5 @@ I have used ChatGPT to set up development environment, getting debugging in vsco
 
 I have added all my questions and ChatGPT's answers to the document charGPT.MD
 
+As I "talk" to ChatGPT and develop the code I do commit so that it is possible to see how ChatGPT has guided my coding. 
 

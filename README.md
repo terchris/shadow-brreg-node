@@ -11,3 +11,6 @@ As I "talk" to ChatGPT and develop the code I do commit so that it is possible t
 ## how to play
 To play with we need lots of data. I have created a docker image that download and creates a database that has all companies and organizations in Norway. About a milion (small country) organizations in the database.
 https://github.com/terchris/shadow-brreg
+
+Use vscode as your editor and install SQLTools extension to do sql queries to the shadow-brreg database server
+https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools

@@ -1070,3 +1070,197 @@ ORDER BY count DESC
 LIMIT $1
 In this query, I've added an alias count for the result of the count function and used that in the ORDER BY clause.
 
+# My input 34:
+
+I need to copy organizations from the table and populate another database. Since there are 1048575 rows in the table I need a strategy for how to do this. The solution must take into consideration that the program that copy records can stop before it is finished.  It is important that records that are already copied is not copied once more if the program is restarted. The solution needs to start where it stopped. What suggestions do you have?
+
+# ChatGPT response 34:
+
+One possible strategy for copying records from one table to another is to use a unique identifier to keep track of which records have been copied, and to start the copy process from the last successfully copied record when the program is restarted.
+
+One way to do this would be to add a new column to the source table, named "status" for example, that is set to "
+
+copied" or "not copied" for each row.
+
+You can then use a SELECT statement with a WHERE clause to retrieve only the records that have a status of "not copied".
+
+Another option would be to use a timestamp column, and filter the select statement to only retrieve records that have been modified after the timestamp of the last successfully copied record.
+
+You can also use a LIMIT and OFFSET clause in your SELECT statement to retrieve a certain number of records at a time, and increment the offset value each time the program runs to retrieve the next set of records.
+
+# My input 35:
+
+write the sql statement that adds a date field named sync_date to the table
+
+# ChatGPT response 35:
+
+ALTER TABLE brreg_enheter_alle ADD COLUMN sync_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+# My input 36:
+
+to avoid adding the sync_date field twice I need to check if it already exists. how do I do that?
+
+# ChatGPT response 36:
+
+You can check if the sync_date field already exists in the table by running the following SQL query:
+
+SELECT column_name FROM information_schema.columns WHERE table_name = 'brreg_enheter_alle' AND column_name = 'sync_date';
+This query will return the column name 'sync_date' if it exists in the table 'brreg_enheter_alle', and it will return nothing if it does not exist.
+You can then check the result of this query in your code before running the statement to add the sync_date field.
+
+
+const checkSyncDateExist = await pool.query(`SELECT column_name FROM information_schema.columns WHERE table_name = 'brreg_enheter_alle' AND column_name = 'sync_date'`);
+if (!checkSyncDateExist.rowCount) {
+  // execute the statement to add the sync_date field
+}
+
+# My input 37:
+
+can you make a generic function for adding a field to the table. A function that takes the name and type of the field as parameters. The function should create the field if it does not exist. If there are some error it should return false otherwise true.
+
+# ChatGPT response 37:
+
+Here is an example of a generic function for adding a field to a table in PostgreSQL:
+
+async function addFieldToTable(tableName: string, fieldName: string, fieldType: string) : Promise<boolean> {
+    try {
+        const res = await pool.query(`SELECT column_name FROM information_schema.columns WHERE table_name = $1 AND column_name = $2`, [tableName, fieldName]);
+        if (res.rows.length === 0) {
+            await pool.query(`ALTER TABLE ${tableName} ADD COLUMN ${fieldName} ${fieldType}`);
+        }
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+This function takes in three parameters: the table name, the field name, and the field type. It first checks if the field already exists by querying the information_schema.columns table. If the field does not exist, it adds it to the table with the ALTER TABLE command. It returns true if the field is added successfully, or false if an error occurs.
+
+You can use this function like this:
+
+
+addFieldToTable('brreg_enheter_alle', 'sync_date', 'TIMESTAMP');
+Note that this function assumes that you have a connection pool object named 'pool' that you use to connect to your PostgreSQL database.
+
+
+# My input 38:
+
+write the sql to rename the sync_date field to urb_sync_date
+
+# ChatGPT response 38:
+
+ALTER TABLE brreg_enheter_alle RENAME COLUMN sync_date TO urb_sync_date;
+
+
+# My input 39:
+
+add the following fields to the table: urb_brreg_oppdateringsid as a number, urb_brreg_update_date as date, urb_brreg_endringstype as string
+
+# ChatGPT response 39:
+
+The SQL statement to add the fields "urb_brreg_oppdateringsid", "urb_brreg_update_date", and "urb_brreg_endringstype" to a table "organizations" would be:
+
+
+ALTER TABLE organizations
+ADD COLUMN urb_brreg_oppdateringsid INTEGER,
+ADD COLUMN urb_brreg_update_date DATE,
+ADD COLUMN urb_brreg_endringstype VARCHAR(255);
+Note that the column type may vary depending on your database management system, but this is an example of how to add the fields in PostgreSQL.
+
+
+# My input 39:
+
+I see that you have forgotten that the table with organizations is named brreg_enheter_alle. pls change the sql 
+
+# ChatGPT response 39:
+
+ALTER TABLE brreg_enheter_alle ADD COLUMN urb_brreg_oppdateringsid INTEGER;
+ALTER TABLE brreg_enheter_alle ADD COLUMN urb_brreg_update_date DATE;
+ALTER TABLE brreg_enheter_alle ADD COLUMN urb_brreg_endringstype VARCHAR(255);
+
+
+# My input 40:
+write the sql to:
+create a table named urbalurba_status with the following fields: database_download_date as date, last_brreg_update_date as date, last_brreg_oppdateringsid as number.
+Set the field database_download_date to the date when the table brreg_enheter_alle was created
+
+
+
+# ChatGPT response 40:
+
+You can use the following SQL statement to create the urbalurba_status table and set the database_download_date field to the date when the brreg_enheter_alle table was created:
+
+
+CREATE TABLE urbalurba_status (
+    id SERIAL PRIMARY KEY,
+    database_download_date DATE,
+    last_brreg_update_date DATE,
+    last_brreg_oppdateringsid INTEGER
+);
+INSERT INTO urbalurba_status (database_download_date) 
+SELECT created 
+FROM pg_tables 
+WHERE tablename = 'brreg_enheter_alle';
+This creates a table named urbalurba_status with fields id, database_download_date, last_brreg_update_date, and last_brreg_oppdateringsid. The id field is set as the primary key and also serial, which is an auto-incrementing integer. The database_download_date field is set to the date when the brreg_enheter_alle table was created, by selecting the created field from the pg_tables system table where the tablename is 'brreg_enheter_alle', this is done using an insert statement.
+
+
+
+
+# My input 40:
+I get the error "column "created" does not exist" when doing:
+INSERT INTO urbalurba_status (database_download_date) 
+SELECT created 
+FROM pg_tables 
+WHERE tablename = 'brreg_enheter_alle';
+
+
+# ChatGPT response 40:
+
+This error message is occurring because the column "created" does not exist in the pg_tables table. Instead, you can use the "create_time" column to get the date when the table brreg_enheter_alle was created. The updated SQL statement would be:
+
+
+INSERT INTO urbalurba_status (database_download_date) 
+SELECT create_time 
+FROM pg_tables 
+WHERE tablename = 'brreg_enheter_alle';
+You may also want to consider adding a condition to check if the table already exist in urbalurba_status table, if it exist then don't insert again.
+
+
+INSERT INTO urbalurba_status (database_download_date) 
+SELECT create_time 
+FROM pg_tables 
+WHERE tablename = 'brreg_enheter_alle' and not exists (select 1 from urbalurba_status);
+
+
+
+# My input 41:
+
+I see that your sql does not work. This is how to do it: 
+SELECT (pg_stat_file('base/'||oid ||'/PG_VERSION')).modification, datname FROM pg_database;
+
+This sql returns two 4 records with the fields modification and datname. Can you take this sql and modify it so that it returns the modification field of the record that has datname = "importdata"
+
+
+# ChatGPT response 41:
+
+Sure, here's an example SQL query that should return the "modification" field of the record that has "datname" = "importdata":
+
+
+SELECT (pg_stat_file('base/'||oid ||'/PG_VERSION')).modification AS database_download_date 
+FROM pg_database 
+WHERE datname = 'importdata';
+It can be inserted into the table urbalurba_status like this:
+
+
+INSERT INTO urbalurba_status (database_download_date) 
+SELECT (pg_stat_file('base/'||oid ||'/PG_VERSION')).modification 
+FROM pg_database 
+WHERE datname = 'importdata';
+Please note that this only works for PostgreSQL.
+
+
+# My input xx:
+
+
+
+# ChatGPT response xx:

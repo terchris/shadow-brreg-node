@@ -23,6 +23,20 @@ async function getOrganizations(query: string, limit: number) : Promise<any[]> {
     }
 }
 
+async function addFieldToTable(tableName: string, fieldName: string, fieldType: string) : Promise<boolean> {
+    try {
+        const res = await pool.query(`SELECT column_name FROM information_schema.columns WHERE table_name = $1 AND column_name = $2`, [tableName, fieldName]);
+        if (res.rows.length === 0) {
+            await pool.query(`ALTER TABLE ${tableName} ADD COLUMN ${fieldName} ${fieldType}`);
+        }
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
+
 
 async function main() {
 
@@ -32,8 +46,6 @@ async function main() {
     const largestOrganizationsNoWebQuery = `SELECT organisasjonsnummer, navn, hjemmeside, antall_ansatte FROM brreg_enheter_alle WHERE (hjemmeside IS NULL OR hjemmeside = '') ORDER BY antall_ansatte DESC`;
     const duplicateWebQuery = `SELECT hjemmeside, COUNT(*) as count FROM brreg_enheter_alle WHERE hjemmeside IS NOT NULL AND hjemmeside != '' GROUP BY hjemmeside ORDER BY count DESC`;
     const duplicateWebCountQuery = `SELECT COUNT(hjemmeside) as count, hjemmeside FROM brreg_enheter_alle GROUP BY hjemmeside HAVING COUNT(hjemmeside) > 1 ORDER BY count DESC`;
-    //const duplicateWebTableQuery = `SELECT count, COUNT(count) as frequency FROM (SELECT hjemmeside, COUNT(hjemmeside) as count FROM brreg_enheter_alle GROUP BY hjemmeside HAVING count > 1) subquery GROUP BY count ORDER BY count DESC`;
-
     const duplicateWebTableQuery = `SELECT COUNT(*) as count, duplicate_hjemmeside FROM (
         SELECT COUNT(hjemmeside) as duplicate_hjemmeside 
         FROM brreg_enheter_alle 
@@ -42,6 +54,8 @@ async function main() {
     GROUP BY duplicate_hjemmeside
     ORDER BY duplicate_hjemmeside DESC`;
 
+
+    const addFiled_sync_date = `ALTER TABLE brreg_enheter_alle ADD COLUMN sync_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP`;
 
     console.log("Getting first records in the table");
     let firstRecords = await getOrganizations(firstOrganizationsQuery, numberOfOrganizations);
@@ -66,6 +80,12 @@ async function main() {
     console.log("Getting duplicate websites table");
     const duplicateWebTable = await getOrganizations(duplicateWebTableQuery, 10000);
     displayRecords(duplicateWebTable);
+
+
+    console.log("Adding sync_date field");
+    let sucessAdding = await addFieldToTable('brreg_enheter_alle', 'urb_sync_date', 'TIMESTAMP');
+
+
 
 }
 

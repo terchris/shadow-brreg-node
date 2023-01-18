@@ -1,0 +1,1 @@
+ALTER TABLE brreg_enheter_alle RENAME COLUMN sync_date TO urb_sync_date;

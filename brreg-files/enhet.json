@@ -1,0 +1,47 @@
+{
+    "organisasjonsnummer": "994228617",
+    "navn": "HARPREET BANSAL",
+    "organisasjonsform": {
+        "kode": "ENK",
+        "beskrivelse": "Enkeltpersonforetak",
+        "_links": {
+            "self": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/ENK"
+            }
+        }
+    },
+    "registreringsdatoEnhetsregisteret": "2009-06-18",
+    "registrertIMvaregisteret": false,
+    "naeringskode1": {
+        "beskrivelse": "Utøvende kunstnere og underholdningsvirksomhet innen musikk",
+        "kode": "90.011"
+    },
+    "antallAnsatte": 0,
+    "forretningsadresse": {
+        "land": "Norge",
+        "landkode": "NO",
+        "postnummer": "0487",
+        "poststed": "OSLO",
+        "adresse": [
+            "Kapellveien 53"
+        ],
+        "kommune": "OSLO",
+        "kommunenummer": "0301"
+    },
+    "institusjonellSektorkode": {
+        "kode": "8200",
+        "beskrivelse": "Personlig næringsdrivende"
+    },
+    "registrertIForetaksregisteret": false,
+    "registrertIStiftelsesregisteret": false,
+    "registrertIFrivillighetsregisteret": false,
+    "konkurs": false,
+    "underAvvikling": false,
+    "underTvangsavviklingEllerTvangsopplosning": false,
+    "maalform": "Bokmål",
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/994228617"
+        }
+    }
+}

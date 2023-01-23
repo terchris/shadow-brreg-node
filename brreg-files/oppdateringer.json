@@ -1,0 +1,59 @@
+{
+    "_embedded": {
+        "oppdaterteEnheter": [
+            {
+                "oppdateringsid": 16666472,
+                "dato": "2023-01-17T05:01:31.544Z",
+                "organisasjonsnummer": "814441822",
+                "endringstype": "Sletting",
+                "_links": {
+                    "enhet": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/814441822"
+                    }
+                }
+            },
+            {
+                "oppdateringsid": 16666474,
+                "dato": "2023-01-17T05:01:31.544Z",
+                "organisasjonsnummer": "818071892",
+                "endringstype": "Sletting",
+                "_links": {
+                    "enhet": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/818071892"
+                    }
+                }
+            },
+            {
+                "oppdateringsid": 16666476,
+                "dato": "2023-01-17T05:01:31.544Z",
+                "organisasjonsnummer": "820722272",
+                "endringstype": "Sletting",
+                "_links": {
+                    "enhet": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/enheter/820722272"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "first": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2023-01-17T00:00:00.000Z&page=0&size=3"
+        },
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2023-01-17T00:00:00.000Z&page=0&size=3"
+        },
+        "next": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2023-01-17T00:00:00.000Z&page=1&size=3"
+        },
+        "last": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2023-01-17T00:00:00.000Z&page=1027&size=3"
+        }
+    },
+    "page": {
+        "size": 3,
+        "totalElements": 3084,
+        "totalPages": 1028,
+        "number": 0
+    }
+}

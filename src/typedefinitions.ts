@@ -1,4 +1,4 @@
-export interface BrregEnheterAlle {
+export interface IBrregEnheterAlle {
     organisasjonsnummer: string;
     navn: string;
     organisasjonsform_kode: string;
@@ -42,4 +42,12 @@ export interface BrregEnheterAlle {
     under_tvangsavvikling_eller_tvangsopplasning: string;
     overordnet_enhet_i_offentlig_sektor: string;
     malform: string;
-}
+};
+
+export interface IOppdaterteEnheter {
+    oppdateringsid: number;
+    dato: string;
+    organisasjonsnummer: string;
+    endringstype: string;
+    urb_processed: string;
+};

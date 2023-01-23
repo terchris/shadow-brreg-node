@@ -4,10 +4,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug shadow-brreg-node",
+            "name": "Debug shadow-brreg-test",
             "program": "${workspaceFolder}/dist/index.js",
             "envFile": "${workspaceFolder}/.env",
             "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug shadow-brreg-prod",
+            "program": "${workspaceFolder}/dist/shadow-brreg.js",
+            "envFile": "${workspaceFolder}/.env",
+            "sourceMaps": true
         }
+     
     ]
 }

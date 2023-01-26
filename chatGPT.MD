@@ -1,5 +1,7 @@
 # code written by CharGPT
 
+When creating shadow-brreg i asked ChatGPT 115 questions. Note that the first 20 questions are about setting up the development environment. The rest are about the code for the automatic update of the database.
+
 # My input 1
 
 I have a postgres database named importdata on port 5433. username and password is "postgres". write me a typescript program that lists the first 10 records in the table brreg_enheter_alle. define a separate file named config where you put the code for connecting to the database.
